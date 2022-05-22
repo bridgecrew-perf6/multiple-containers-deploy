@@ -111,3 +111,20 @@ server {
 - location パス {proxy_pass url} : nginxに指定したパスで始まるリクエストが来たとき、`http://サーバー名`のサーバーにリクエストを仕分ける
 - rewrite : nginxに来たリクエストのパスをサーバーに仕分けるとき、特定のルールに従いパスを形式を変更できる
 - `location /ws {...}` : `WebSocket connection to 'ws://localhost:3000/ws' failed`のエラーを解消
+
+### default.conf(production)
+本番環境ではルーティング用のnginxとreactアプリ用のnginxを用意する。ここではreactアプリのnginxの設定を行う。
+```
+server {
+  listen 3000;
+
+  location / {
+    root /usr/share/nginx/html;
+    index index.html index.htm;
+    try_files $uri $uri/ /index.html;
+  }
+}
+```
+- `root パス`: リクエストが来たら指定したパスで始まるルーティングを行う
+- `index インデックスファイル`: index.htmlとして表示するファイルの指定
+- `try_files $uri $uri/ /index.html`:ReactRouterなどでルーティングすると404が表示される。この記述で直す。
