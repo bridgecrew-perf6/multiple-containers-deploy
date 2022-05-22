@@ -16,8 +16,6 @@ jobs:
       - run: docker build -t tosumaso/multi-nginx ./nginx
       - run: docker build -t tosumaso/multi-server ./server
       - run: docker build -t tosumaso/multi-worker ./worker
-
-      - name: Push images to docker hub
       - run: docker push tosumaso/multi-client
       - run: docker push tosumaso/multi-nginx
       - run: docker push tosumaso/multi-server
